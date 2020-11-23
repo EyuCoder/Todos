@@ -11,4 +11,16 @@ class ToDoRepository(private val toDoDao: ToDoDao) {
     suspend fun insertTodo(toDoData: ToDoData){
         toDoDao.insertTodo(toDoData)
     }
+
+    suspend fun updateTodo(toDoData: ToDoData){
+        toDoDao.updateTodo(toDoData)
+    }
+
+    suspend fun deleteItem(toDoData: ToDoData){
+        toDoDao.deleteItem(toDoData)
+    }
+
+    suspend fun deleteAll(){
+        toDoDao.deleteAll()
+    }
 }
