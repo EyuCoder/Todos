@@ -2,7 +2,6 @@ package com.codexo.todos.fragments.update
 
 import android.app.AlertDialog
 import android.os.Bundle
-import android.util.Log
 import android.view.*
 import android.widget.Toast
 import androidx.fragment.app.Fragment
@@ -10,35 +9,32 @@ import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import com.codexo.todos.R
-import com.codexo.todos.data.models.Priority
 import com.codexo.todos.data.models.ToDoData
 import com.codexo.todos.data.viewmodels.ToDoViewModel
+import com.codexo.todos.databinding.FragmentUpdateBinding
 import com.codexo.todos.fragments.SharedViewModel
-import com.codexo.todos.fragments.todo.TodoAdapter
 import kotlinx.android.synthetic.main.fragment_update.*
-import kotlinx.android.synthetic.main.fragment_update.view.*
 
 class UpdateFragment : Fragment() {
 
     private val args by navArgs<UpdateFragmentArgs>()
     private val mSharedViewModel: SharedViewModel by viewModels()
     private val mToDoViewModel: ToDoViewModel by viewModels()
+    private var _binding: FragmentUpdateBinding? = null
+    private val binding get() = _binding!!
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View? {
+    ): View {
+        _binding = FragmentUpdateBinding.inflate(inflater, container, false)
+        binding.args = args
 
         setHasOptionsMenu(true)
-        // Inflate the layout for this fragment
-        val view = inflater.inflate(R.layout.fragment_update, container, false)
 
-        view.update_title_et.setText(args.currentItem.title)
-        view.update_description_et.setText(args.currentItem.description)
-        view.update_priority_spinner.setSelection(mSharedViewModel.parsePriorityToInt(args.currentItem.priority))
-        view.update_priority_spinner.onItemSelectedListener = mSharedViewModel.listener
+        binding.updatePrioritySpinner.onItemSelectedListener = mSharedViewModel.listener
 
-        return view
+        return binding.root
     }
 
     override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
@@ -96,4 +92,8 @@ class UpdateFragment : Fragment() {
         builder.create().show()
     }
 
+    override fun onDestroyView() {
+        super.onDestroyView()
+        _binding = null
+    }
 }

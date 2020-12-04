@@ -15,7 +15,7 @@ import com.codexo.todos.data.models.ToDoData
 
 class SharedViewModel(application: Application): AndroidViewModel(application) {
 
-    val emptyDb: MutableLiveData<Boolean> = MutableLiveData(true)
+    val emptyDb: MutableLiveData<Boolean> = MutableLiveData(false)
 
     fun checkIfDbEmpty(toDoData: List<ToDoData> ){
         emptyDb.value = toDoData.isEmpty()
@@ -54,8 +54,6 @@ class SharedViewModel(application: Application): AndroidViewModel(application) {
     }
 
     fun verifyData(title: String, description: String): Boolean {
-        return if (TextUtils.isEmpty(title) && TextUtils.isEmpty(description)) {
-            false
-        }else !(TextUtils.isEmpty(title) && TextUtils.isEmpty(description))
+        return !(TextUtils.isEmpty(title) && TextUtils.isEmpty(description))
     }
 }
